@@ -1,6 +1,8 @@
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from djangoproject.users import models as user_models #from to djangoproject/models/UserClass
 
+@python_2_unicode_compatible
 class TimeStampModel(models.Model): # Like a bluePrint Model For other Models
     
     created_at = models.DateTimeField(auto_now_add=True) #auto_now_add : its automatically, whenever i want add something.
@@ -13,6 +15,7 @@ class TimeStampModel(models.Model): # Like a bluePrint Model For other Models
 
     """Image Model"""
 
+@python_2_unicode_compatible
 class Image(TimeStampModel): 
     
     file = models.ImageField()
@@ -20,8 +23,12 @@ class Image(TimeStampModel):
     caption = models.TextField() # caption: 사진,잡화등에 붙인 정보
     creator = models.ForeignKey(user_models.User, null = True, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return '{} - {}'.format(self.location, self.caption)
+
     """Comment Model"""
 
+@python_2_unicode_compatible
 class Comment(TimeStampModel):
 
     message = models.TextField()
@@ -30,6 +37,7 @@ class Comment(TimeStampModel):
 
     """Like Model"""
 
+@python_2_unicode_compatible
 class Like(TimeStampModel):
 
     creator = models.name = models.ForeignKey(user_models.User, null=True, on_delete=models.PROTECT)
