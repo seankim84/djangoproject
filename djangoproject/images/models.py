@@ -23,7 +23,7 @@ class Image(TimeStampModel):
     caption = models.TextField() # caption: 사진,잡화등에 붙인 정보
     creator = models.ForeignKey(user_models.User, null = True, on_delete=models.PROTECT)
 
-    def __str__(self):
+    def __str__(self): #You can find this on your image list
         return '{} - {}'.format(self.location, self.caption)
 
     """Comment Model"""
@@ -32,9 +32,11 @@ class Image(TimeStampModel):
 class Comment(TimeStampModel):
 
     message = models.TextField()
-    creator = models.name = models.ForeignKey(user_models.User, null=True, on_delete=models.PROTECT)
+    creator = models.ForeignKey(user_models.User, null=True, on_delete=models.PROTECT)
     image = models.ForeignKey(Image, null=True, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return '{} - {}'.format(self.message, self.creator)
     """Like Model"""
 
 @python_2_unicode_compatible
@@ -42,3 +44,7 @@ class Like(TimeStampModel):
 
     creator = models.name = models.ForeignKey(user_models.User, null=True, on_delete=models.PROTECT)
     image = models.name = models.ForeignKey(Image, null=True, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return 'User: {} - Image Caption: {}'.format(self.creator.username, self.image.caption) 
+        # At the ImageModel, Creator has the UserModel import already. so i can use the foreign key. 
