@@ -22,7 +22,7 @@ class Image(TimeStampModel):
     location = models.CharField(max_length=140)
     caption = models.TextField() # caption: 사진,잡화등에 붙인 정보
     creator = models.ForeignKey(user_models.User, null = True, on_delete=models.PROTECT)
-
+    
     def __str__(self): #You can find this on your image list
         return '{} - {}'.format(self.location, self.caption)
 
@@ -33,17 +33,19 @@ class Comment(TimeStampModel):
 
     message = models.TextField()
     creator = models.ForeignKey(user_models.User, null=True, on_delete=models.PROTECT)
-    image = models.ForeignKey(Image, null=True, on_delete=models.PROTECT)
+    image = models.ForeignKey(Image, null=True, on_delete=models.PROTECT, related_name='comments')
+    #related_name = "This attribute specifies the name of the reverse relation from the User model back to your model." 
 
     def __str__(self):
         return '{} - {}'.format(self.message, self.creator)
+
     """Like Model"""
 
 @python_2_unicode_compatible
 class Like(TimeStampModel):
 
     creator = models.name = models.ForeignKey(user_models.User, null=True, on_delete=models.PROTECT)
-    image = models.name = models.ForeignKey(Image, null=True, on_delete=models.PROTECT)
+    image = models.name = models.ForeignKey(Image, null=True, on_delete=models.PROTECT, related_name='likes')
 
     def __str__(self):
         return 'User: {} - Image Caption: {}'.format(self.creator.username, self.image.caption) 
