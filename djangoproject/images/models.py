@@ -21,10 +21,18 @@ class Image(TimeStampModel):
     file = models.ImageField()
     location = models.CharField(max_length=140)
     caption = models.TextField() # caption: 사진,잡화등에 붙인 정보
-    creator = models.ForeignKey(user_models.User, null = True, on_delete=models.PROTECT)
+    creator = models.ForeignKey(
+        user_models.User, 
+        null = True, 
+        on_delete=models.PROTECT, 
+        related_name='images'
+        )
     
     def __str__(self): #You can find this on your image list
         return '{} - {}'.format(self.location, self.caption)
+
+    class Meta: # configuring for Model.
+        ordering = ["-created_at"] #Lastly order.
 
     """Comment Model"""
 

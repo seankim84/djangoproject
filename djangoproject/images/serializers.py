@@ -15,7 +15,7 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class ImageSerializer(serializers.ModelSerializer): # Serializer have a Field like a Model Field
 
-    comments = CommentSerializer(many=True)
+    comments = CommentSerializer(many=True) #Hidden Model. Declared at Model by related_name
     likes = LikeSerializer(many=True)
 
     class Meta: #Meta : Extra info
