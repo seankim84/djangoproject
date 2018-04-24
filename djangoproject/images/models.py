@@ -27,6 +27,9 @@ class Image(TimeStampModel):
         on_delete=models.PROTECT, 
         related_name='images'
         )
+    @property
+    def like_count(self):
+        return self.likes.all().count()
     
     def __str__(self): #You can find this on your image list
         return '{} - {}'.format(self.location, self.caption)

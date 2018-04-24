@@ -1,11 +1,27 @@
 from rest_framework import serializers
 from . import models
+from djangoproject.users import models as user_models
+
+class FeedUserSerializer(serializers.ModelSerializer): 
+
+    class Meta:
+        model = user_models.User
+        fields = (
+            'username',
+            'profile_image',   
+        )
 
 class CommentSerializer(serializers.ModelSerializer):
 
+    creator = FeedUserSerializer()
+
     class Meta:
         model = models.Comment
-        fields = '__all__'
+        fields = (
+            'id',
+            'message',
+            'creator',
+        )
 
 class LikeSerializer(serializers.ModelSerializer):
 
@@ -16,7 +32,7 @@ class LikeSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer): # Serializer have a Field like a Model Field
 
     comments = CommentSerializer(many=True) #Hidden Model. Declared at Model by related_name
-    likes = LikeSerializer(many=True)
+    creator = FeedUserSerializer()
 
     class Meta: #Meta : Extra info
         model = models.Image
@@ -26,6 +42,7 @@ class ImageSerializer(serializers.ModelSerializer): # Serializer have a Field li
             'location',
             'caption',
             'comments',
-            'likes',
+            'like_count', #from the property 
+            'creator'
         )
 

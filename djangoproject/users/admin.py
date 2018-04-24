@@ -34,6 +34,8 @@ class MyUserCreationForm(UserCreationForm):
 class MyUserAdmin(AuthUserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
-    fieldsets = (("User Profile", {"fields": ("name", "followers", "following")}),) + AuthUserAdmin.fieldsets #Field Set(u can check your field and enable to adds something)
+    fieldsets = (
+        ("User Profile", {
+            "fields": ("name", "followers", "following", "profile_image")}),) + AuthUserAdmin.fieldsets #Field Set(u can check your field and enable to adds something)
     list_display = ("username", "name", "is_superuser")
     search_fields = ["name"]
