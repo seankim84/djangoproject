@@ -21,13 +21,8 @@ class Image(TimeStampModel):
     file = models.ImageField()
     location = models.CharField(max_length=140)
     caption = models.TextField() # caption: 사진,잡화등에 붙인 정보
-    creator = models.ForeignKey(
-        user_models.User, 
-        null = True, 
-        on_delete=models.PROTECT, 
-        related_name='images'
-        )
-        
+    creator = models.ForeignKey(user_models.User, null = True, on_delete=models.PROTECT, related_name='images')
+
     @property
     def like_count(self):
         return self.likes.all().count()
@@ -56,8 +51,8 @@ class Comment(TimeStampModel):
 @python_2_unicode_compatible
 class Like(TimeStampModel):
 
-    creator = models.name = models.ForeignKey(user_models.User, null=True, on_delete=models.PROTECT)
-    image = models.name = models.ForeignKey(Image, null=True, on_delete=models.PROTECT, related_name='likes')
+    creator = models.ForeignKey(user_models.User, null=True, on_delete=models.PROTECT)
+    image = models.ForeignKey(Image, null=True, on_delete=models.PROTECT, related_name='likes')
 
     def __str__(self):
         return 'User: {} - Image Caption: {}'.format(self.creator.username, self.image.caption) 

@@ -43,6 +43,6 @@ class ImageSerializer(serializers.ModelSerializer): # Serializer have a Field li
             'caption',
             'comments',
             'like_count', #from the property 
-            'creator'
+            'creator',
         )
 
