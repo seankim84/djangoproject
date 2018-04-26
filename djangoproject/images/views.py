@@ -30,7 +30,7 @@ class Feed(APIView):
 
 class LikeImage(APIView):
 
-    def post(self, request, image_id, format=None):
+    def post(self, request, image_id, format=None): #image_id : alredy declared on http parmeter. Call the ForeignKey of image
 
         user = request.user
 

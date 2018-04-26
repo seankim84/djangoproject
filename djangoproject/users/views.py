@@ -14,3 +14,37 @@ class ExploreUsers(APIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
+class FollowUser(APIView):
+
+    def post(self, request, user_id, format=None):
+
+        user = request.user
+
+        try:
+            user_to_follow = models.User.objects.get(id=user_id)
+        except models.User.DoesNotExists: 
+            return Respone(status=status.HTTP_404_NOT_FOUND)
+
+        user.following.add(user_to_follow) # Add the "user_to_follow to following(list)"
+        #it's easy to adding the elements at manyTomanyField.
+        user.save()
+
+        return Response(status=status.HTTP_200_OK)
+
+
+class UnFollowUser(APIView):
+
+    def post(self, request, user_id, format=None): #list에서 삭제하는것이기 때문에 delete를 사용할 필요가 없다.
+
+        user = request.user
+
+        try:
+            user_to_follow = models.User.objects.get(id=user_id)
+        except models.User.DoesNotExists: 
+            return Respone(status=status.HTTP_404_NOT_FOUND)
+
+        user.following.remove(user_to_follow) # remove the "user_to_follow to following(list)"
+        #it's easy to removie the elements at manyTomanyField.
+        user.save()
+
+        return Response(status=status.HTTP_200_OK)
