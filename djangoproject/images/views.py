@@ -5,7 +5,7 @@ from . import models, serializers
 
 class Feed(APIView):
 
-    def get(self, request, format=None): 
+    def get(self, request, format=None): # "format" parameter is used to define the output response format, like: csv, json, etc 
 
         user = request.user # it comes from Authentication middleware, give to us "User Object"
 
@@ -73,7 +73,7 @@ class CommentOnImage(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = serializers.CommentSerializer(data=request.data) #To save the Serializer
-
+        #request.data : returns the parsed content of the request body. This is similar to the standard request.POST and request.FILES
         if serializer.is_valid():
 
             serializer.save(creator=user)
@@ -82,3 +82,18 @@ class CommentOnImage(APIView):
 
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class Comment(APIView):
+
+    def delete(self, request, comment_id, format=None):
+        
+        user = request.user
+
+        try:
+            comment = models.Comment.objects.get(id=comment_id, creator = user) #댓글 id는 url이어야 하고, 현재 삭제를 요청하는 유저와 같아야 삭제가능.
+            comment.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except models.Comment.DoesNotExist: 
+            
+            return Response(status=status.HTTP_404_NOT_FOUND)
