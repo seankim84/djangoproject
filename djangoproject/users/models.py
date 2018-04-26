@@ -22,8 +22,8 @@ class User(AbstractUser): #Extend from models
     bio = models.TextField(null=True)
     phone = models.CharField(max_length=140, null=True)
     gender = models.CharField(max_length=80, choices=GENDER_CHOICES, null=True)
-    followers = models.ManyToManyField("self") #When u have Foreignkey, u can choice only 1. but ManyToManyField can choice the 1 more 
-    following = models.ManyToManyField("self")
+    followers = models.ManyToManyField("self", blank=True) #When u have Foreignkey, u can choice only 1. but ManyToManyField can choice the 1 more 
+    following = models.ManyToManyField("self", blank=True) #if blank=True abstract, this field be neccesary feild.
 
 
     def __str__(self):
