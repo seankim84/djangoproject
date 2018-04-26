@@ -11,14 +11,14 @@ class FeedUserSerializer(serializers.ModelSerializer):
             'profile_image',   
         )
 
-class CommentSerializer(serializers.ModelSerializer):
-
-    creator = FeedUserSerializer()
+class CommentSerializer(serializers.ModelSerializer): #Serializer can also check saving
+                                                      #Can generate something objects
+    creator = FeedUserSerializer(read_only=True)
 
     class Meta:
         model = models.Comment
         fields = (
-            'id',
+            'id', # id: Read Only Field.
             'message',
             'creator',
         )

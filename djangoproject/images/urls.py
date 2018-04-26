@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from . import views
 
-app_name = "images" # Django 2.0 need it.
+app_name = "images"
 urlpatterns = [
     url(
         regex=r'^$',
@@ -9,8 +9,20 @@ urlpatterns = [
         name='feed'
     ),
     url(
-        regex=r'(?P<image_id>[0-9]+)/like/', #if here request the <image_id>, u must write on the view argument "image_id"
+        regex=r'(?P<image_id>[0-9]+)/like/',
         view=views.LikeImage.as_view(),
         name='like_image'
     ),
+    url(
+        regex=r'(?P<image_id>[0-9]+)/comment/',
+        view=views.CommentOnImage.as_view(),
+        name='comment_image'
+    )
+
 ]
+
+
+#/images/3/like/
+
+# 2 we want to find an image with this id
+# 3 we want to create a like for that image

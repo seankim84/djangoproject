@@ -15,9 +15,9 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
     # User management => if u want, add the url, u have to write this to add
-    url(r"^users/",include("djangoproject.users.urls", namespace="users")),
-    url(r"^images/", include("djangoproject.images.urls", namespace="images")),
-    url(r"^accounts/", include("allauth.urls")),
+    url(r'^users/',include('djangoproject.users.urls', namespace='users')),
+    url(r'^images/', include('djangoproject.images.urls', namespace='images')),
+    url(r'^accounts/', include("allauth.urls")),
     
     # Your stuff: custom urls includes go here
 ] + static(
