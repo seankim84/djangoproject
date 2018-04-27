@@ -136,7 +136,7 @@ class Search(APIView):
             images = models.Image.objects.filter(
                 tags__name__in=hashtags).distinct() 
             #tags__name__in: django can search "Deep Relationship"
-            #distinct: i don't wanna search twice.
+            #distinct: i don't wanna search twice.(중복된 값은 하나로만 표시)
 
             serializer = serializers.CountImageSerializer(images, many=True)
 
