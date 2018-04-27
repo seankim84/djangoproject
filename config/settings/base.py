@@ -67,6 +67,7 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework', #serializer를 위해 설치(json=>python object, python object=>json)
+    'taggit', #Tags for the Photos 
 ]
 LOCAL_APPS = [
     'djangoproject.users.apps.UsersConfig',
@@ -238,3 +239,4 @@ SOCIALACCOUNT_ADAPTER = 'djangoproject.users.adapters.SocialAccountAdapter'
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+TAGGIT_CASE_INSENSITIVE = True # 대문자, 소문자 hashtags를 구분하지 않는다.

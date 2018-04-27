@@ -3,7 +3,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from . import models, serializers
 
-class Feed(APIView):
+#get, post, put, delete etc..are functions which for the http_request
+
+class Feed(APIView): #AS try,except u can match wether user is real user or not
 
     def get(self, request, format=None): # "format" parameter is used to define the output response format, like: csv, json, etc 
 
@@ -120,3 +122,26 @@ class Comment(APIView):
         except models.Comment.DoesNotExist: 
             
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+class Search(APIView):
+
+    def get(self, request, format=None):
+
+        hashtags = request.query_params.get('hashtags', None)
+
+        if hashtags is not None:
+
+            hashtags = hashtags.split(",")
+
+            images = models.Image.objects.filter(
+                tags__name__in=hashtags).distinct() 
+            #tags__name__in: django can search "Deep Relationship"
+            #distinct: i don't wanna search twice.
+
+            serializer = serializers.CountImageSerializer(images, many=True)
+
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        else: 
+            
+            return Response(status=status.HTTP_400_BAD_REQUEST)
