@@ -17,6 +17,7 @@ urlpatterns = [
     # User management => if u want, add the url, u have to write this to add
     url(r'^users/',include('djangoproject.users.urls', namespace='users')),
     url(r'^images/', include('djangoproject.images.urls', namespace='images')),
+    url(r'^notifications/', include('djangoproject.notifications.urls', namespace='notifications')),
     url(r'^accounts/', include("allauth.urls")),
     
     # Your stuff: custom urls includes go here

@@ -2,6 +2,17 @@ from rest_framework import serializers
 from . import models
 from djangoproject.users import models as user_models
 
+class SmallImageSerializer(serializers.ModelSerializer):
+
+    """Used for notifications"""
+
+    class Meta:
+        model = models.Image
+        fields = (
+            'file',
+        )
+
+
 class CountImageSerializer(serializers.ModelSerializer):
 
     class Meta:

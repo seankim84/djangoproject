@@ -72,7 +72,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'djangoproject.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-    'djangoproject.images.apps.ImagesConfig' #When u want to adding the app, u can like this
+    'djangoproject.images.apps.ImagesConfig', #When u want to adding the app, u can like this
+    'djangoproject.notifications.apps.NotificationsConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

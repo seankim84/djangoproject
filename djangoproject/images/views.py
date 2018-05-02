@@ -131,7 +131,7 @@ class Search(APIView):
 
         if hashtags is not None:
 
-            hashtags = hashtags.split(",")
+            hashtags = hashtags.split(",") # commma로 잘라서 array에 집어넣는다.
 
             images = models.Image.objects.filter(
                 tags__name__in=hashtags).distinct() 
