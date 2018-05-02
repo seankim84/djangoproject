@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from djangoproject.notifications import views as notifications_views
 from . import models, serializers
 
 #get, post, put, delete etc..are functions which for the http_request
@@ -56,6 +57,8 @@ class LikeImage(APIView):
                 image=found_image
             )
 
+            notifications_views.create_notifications(user, found_image.creator, 'like', found_image)
+
             new_like.save()
 
             return Response(status=status.HTTP_201_CREATED)
@@ -67,7 +70,7 @@ class UnLikeImage(APIView):
         user = request.user
 
         try:
-            found_image = models.Image.objects.get(id=image+id)
+            found_image = models.Image.objects.get(id=image_id)
 
         except models.Image.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -102,6 +105,9 @@ class CommentOnImage(APIView):
         if serializer.is_valid():
 
             serializer.save(creator=user)
+
+            notifications_views.create_notifications(
+                user, found_image.creator, 'comment', found_image, serializer.data['message'])
 
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 

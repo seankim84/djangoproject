@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from djangoproject.notifications import views as notifications_views
 from . import models, serializers
 
 class ExploreUsers(APIView):
@@ -28,6 +29,8 @@ class FollowUser(APIView):
         user.following.add(user_to_follow) # Add the "user_to_follow to following(list)"
         #it's easy to adding the elements at manyTomanyField.
         user.save()
+
+        notifications_views.create_notifications(user, user_to_follow, 'follow')
 
         return Response(status=status.HTTP_200_OK)
 

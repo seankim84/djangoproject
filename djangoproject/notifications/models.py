@@ -17,3 +17,11 @@ class Notifications(image_models.TimeStampedModel): #Call  TimeStampModel from I
     notifications_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     image = models.ForeignKey(image_models.Image, null=True, blank=True, on_delete=models.PROTECT)
     comment = models.TextField(null=True, blank=True)
+
+    class Meta:
+
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return '{} -To :{}'.format(self.creator, self.to)
+    
