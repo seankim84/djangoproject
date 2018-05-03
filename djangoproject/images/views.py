@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from djangoproject.users import models as user_models
+from djangoproject.users import serializers as user_serializers
 from djangoproject.notifications import views as notifications_views
 from . import models, serializers
 
@@ -24,6 +26,12 @@ class Feed(APIView): #AS try,except u can match wether user is real user or not
 
                 image_list.append(image)
 
+        my_images = user.images.all()[:2] #내가 방금 생성한 이미지도 피드에서 볼 수 있도록한다.
+
+        for image in my_images:
+
+            image_list.append(image)
+
         sorted_list = sorted(
             image_list, key=lambda image: image.created_at, reverse=True)
 
@@ -32,6 +40,18 @@ class Feed(APIView): #AS try,except u can match wether user is real user or not
         return Response(serializer.data)
 
 class LikeImage(APIView):
+
+    def get(self, request, image_id, format=None): # 좋아요를 누른 모든 유저 리스트를 가져온다.
+        
+        likes = models.Like.objects.filter(image__id=image_id) # When Url give to the image_id, find the "like" which have image_id
+
+        like_creators_ids = likes.values('creator_id') #U can extract the creator in "likes".
+
+        users = user_models.User.objects.filter(id__in=like_creators_ids) # Searching the user id in array
+
+        serializer = user_serializers.ListUserSerializer(users, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, image_id, format=None): #image_id : alredy declared on http parmeter. Call the ForeignKey of image
 
@@ -167,3 +187,22 @@ class ModerateComments(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ImageDetail(APIView):
+    
+    def get(self, request, image_id, format=None):
+
+        user = request.user
+
+        try: 
+            image = models.Image.objects.get(id=image_id) #남이 만든것도 볼 수 있어야 하므로 creator=user를 제외한다.
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.ImageSerializer(image)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+

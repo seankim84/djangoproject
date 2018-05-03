@@ -67,5 +67,6 @@ class ImageSerializer(serializers.ModelSerializer): # Serializer have a Field li
             'comments',
             'like_count', #from the property 
             'creator',
+            'created_at',
         )
 
