@@ -151,3 +151,19 @@ class Search(APIView):
         else: 
             
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class ModerateComments(APIView):
+
+    def delete(self, request, image_id, comment_id ,format=None):
+        
+        user = request.user
+
+        try:
+            comment_to_delete = models.Comment.objects.get(
+                id=comment_id, image__id=image_id, image__creator=user) #삭제하고자 하는 댓글의 id가 url의 id와 동일하고, 유저에의해 생성되었는지를 확인
+            comment_to_delete.delete()
+
+        except models.Comment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
