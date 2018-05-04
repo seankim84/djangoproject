@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from . import models
 from djangoproject.users import models as user_models
+from taggit_serializer.serializers import (TagListSerializerField, TaggitSerializer)
+from . import models
 
 class SmallImageSerializer(serializers.ModelSerializer):
 
@@ -46,10 +47,11 @@ class CommentSerializer(serializers.ModelSerializer): #Serializer can also check
             'creator',
         )
 
-class ImageSerializer(serializers.ModelSerializer): # Serializer have a Field like a Model Field
+class ImageSerializer(TaggitSerializer, serializers.ModelSerializer): # Serializer have a Field like a Model Field
 
     comments = CommentSerializer(many=True) #Hidden Model. Declared at Model by related_name
     creator = FeedUserSerializer()
+    tags = TagListSerializerField()
 
     class Meta: #Meta : Extra info
         model = models.Image
@@ -61,6 +63,7 @@ class ImageSerializer(serializers.ModelSerializer): # Serializer have a Field li
             'comments',
             'like_count', #from the property 
             'creator',
+            'tags',
             'created_at',
         )
         

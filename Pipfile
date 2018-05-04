@@ -36,6 +36,7 @@ django-coverage-plugin = "==1.5.0"
 pytest-django = "==3.2.1"
 django-taggit = "*"
 djangorestframework-jwt = "*"
+django-taggit-serializer = "*"
 
 
 [dev-packages]

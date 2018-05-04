@@ -67,7 +67,8 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework', #serializer를 위해 설치(json=>python object, python object=>json)
-    'taggit', #Tags for the Photos 
+    'taggit', #Tags for the Photos ,
+    'taggit_serializer', #Tag serialzier
 ]
 LOCAL_APPS = [
     'djangoproject.users.apps.UsersConfig',
