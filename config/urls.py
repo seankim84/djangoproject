@@ -9,7 +9,8 @@ from rest_framework_jwt.views import obtain_jwt_token
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
-    url(r'^api-token-auth/', obtain_jwt_token), #for jwt Token
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     # User management => if u want, add the url, u have to write this to add
     url(r'^users/',include('djangoproject.users.urls', namespace='users')),
     url(r'^images/', include('djangoproject.images.urls', namespace='images')),

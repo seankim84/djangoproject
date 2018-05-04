@@ -8,7 +8,7 @@ from . import models, serializers
 
 #get, post, put, delete etc..are functions which for the http_request
 
-class Feed(APIView): #AS try,except u can match wether user is real user or not
+class Images(APIView): #AS try,except u can match wether user is real user or not
 
     def get(self, request, format=None): # "format" parameter is used to define the output response format, like: csv, json, etc 
 
@@ -38,6 +38,23 @@ class Feed(APIView): #AS try,except u can match wether user is real user or not
         serializer = serializers.ImageSerializer(sorted_list, many=True)
 
         return Response(serializer.data)
+
+    def post(self, request, format=None):
+
+        user = request.user
+
+        serializer = serializers.InputImageSerializer(data=request.data)
+
+        if serializer.is_valid():
+
+            serializer.save(creator=user)
+
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        
+        else: 
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class LikeImage(APIView):
 
