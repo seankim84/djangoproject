@@ -4,22 +4,18 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
+from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
-    url(r"^$", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    url(
-        r"^about/$",
-        TemplateView.as_view(template_name="pages/about.html"),
-        name="about",
-    ),
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
+    url(r'^api-token-auth/', obtain_jwt_token), #for jwt Token
     # User management => if u want, add the url, u have to write this to add
     url(r'^users/',include('djangoproject.users.urls', namespace='users')),
     url(r'^images/', include('djangoproject.images.urls', namespace='images')),
     url(r'^notifications/', include('djangoproject.notifications.urls', namespace='notifications')),
     url(r'^accounts/', include("allauth.urls")),
-    
+
     # Your stuff: custom urls includes go here
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

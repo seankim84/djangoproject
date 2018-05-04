@@ -241,3 +241,14 @@ SOCIALACCOUNT_ADAPTER = 'djangoproject.users.adapters.SocialAccountAdapter'
 # Your stuff...
 # ------------------------------------------------------------------------------
 TAGGIT_CASE_INSENSITIVE = True # 대문자, 소문자 hashtags를 구분하지 않는다.
+
+REST_FRAMEWORK = { #For JWT u have to write under these
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', #this make whole api into private
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': ( #these works with jwt
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', #for frontend
+        'rest_framework.authentication.SessionAuthentication', #for others
+        'rest_framework.authentication.BasicAuthentication', #for others
+    ),
+}

@@ -35,6 +35,7 @@ django-extensions = "==2.0.7"
 django-coverage-plugin = "==1.5.0"
 pytest-django = "==3.2.1"
 django-taggit = "*"
+djangorestframework-jwt = "*"
 
 
 [dev-packages]
