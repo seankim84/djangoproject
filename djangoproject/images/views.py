@@ -190,13 +190,22 @@ class ModerateComments(APIView):
 
 
 class ImageDetail(APIView):
+
+    def find_own_image(self, image_id, user): #self가 필요하다 해당 function은 class 안에 있기 때문에
+
+        try: 
+            image = models.Image.objects.get(id=image_id, creator=user) 
+            return image
+        except models.Image.DoesNotExist:
+            return None
+
     
     def get(self, request, image_id, format=None):
 
         user = request.user
 
         try: 
-            image = models.Image.objects.get(id=image_id) #남이 만든것도 볼 수 있어야 하므로 creator=user를 제외한다.
+            image = models.Image.objects.get(id=image_id, creator=user) #남이 만든것도 볼 수 있어야 하므로 creator=user를 제외한다.
         except models.Image.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -204,5 +213,44 @@ class ImageDetail(APIView):
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
+    def put(self, request, image_id, format=None): #When image update only can do created image by owner.
 
+        user = request.user
+
+        image = self.find_own_image(image_id, user)
+
+        if image is None :
+
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            
+
+        try : 
+            image = models.Image.objects.get(id=image_id, creator=user)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = serializers.InputImageSerializer(image, data=request.data, partial=True) #partial = 아직 serializer가 완벽히 update 되지 않아도 저장한다.
+
+        if serializer.is_valid():
+
+            serializer.save(creator=user)
+
+            return Response(data=serializer.data, status=status.HTTP_204_NO_CONTENT)
+
+        else :
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, image_id, format=None):
+
+        user = request.user
+
+        image = self.find_own_image(image_id, user)
+
+        if image is None :
+
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        image.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 

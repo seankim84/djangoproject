@@ -46,12 +46,6 @@ class CommentSerializer(serializers.ModelSerializer): #Serializer can also check
             'creator',
         )
 
-class LikeSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.Like
-        fields = '__all__'
-
 class ImageSerializer(serializers.ModelSerializer): # Serializer have a Field like a Model Field
 
     comments = CommentSerializer(many=True) #Hidden Model. Declared at Model by related_name
@@ -69,4 +63,22 @@ class ImageSerializer(serializers.ModelSerializer): # Serializer have a Field li
             'creator',
             'created_at',
         )
+        
+
+class LikeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Like
+        fields = '__all__'
+
+class InputImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Image
+        fields = (
+            'file',
+            'location',
+            'caption',
+        ) 
+
 
