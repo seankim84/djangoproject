@@ -66,6 +66,7 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook', #enable to login facebook
     'rest_framework', #serializer를 위해 설치(json=>python object, python object=>json)
     'rest_framework.authtoken',
     'taggit', #Tags for the Photos ,
