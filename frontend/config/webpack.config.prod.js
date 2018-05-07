@@ -183,7 +183,7 @@ module.exports = {
                         importLoaders: 1,
                         minimize: true,
                         modules:true,
-                        localIdentName: '[path][name]__[local]--[hash:base:64:5]', // 어떻게클래스 name을 얻었는지 보여준다.
+                        localIdentName: "[path][name]__[local]--[hash:base:64:5]", // 어떻게클래스 name을 얻었는지 보여준다.
                         sourceMap: shouldUseSourceMap,
                       },
                     },
