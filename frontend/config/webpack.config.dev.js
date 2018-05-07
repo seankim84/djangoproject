@@ -164,6 +164,8 @@ module.exports = {
                 loader: require.resolve('css-loader'),
                 options: {
                   importLoaders: 1,
+                  modules: true,
+                  localIdentName:'[path][name]__[local]--[hash:base:64:5]' // 어떻게클래스 name을 얻었는지 보여준다.
                 },
               },
               {

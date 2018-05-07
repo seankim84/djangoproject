@@ -166,7 +166,7 @@ module.exports = {
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
           {
-            test: /\.css$/,
+            test: /\.css|scss$/,
             loader: ExtractTextPlugin.extract(
               Object.assign(
                 {
@@ -182,6 +182,8 @@ module.exports = {
                       options: {
                         importLoaders: 1,
                         minimize: true,
+                        modules:true,
+                        localIdentName: '[path][name]__[local]--[hash:base:64:5]', // 어떻게클래스 name을 얻었는지 보여준다.
                         sourceMap: shouldUseSourceMap,
                       },
                     },
