@@ -1,11 +1,16 @@
 //redux Store를 설정/구성한다.(Reducer 합치기)
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { routerReducer, routerMiddleware } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
 import users from 'redux/modules/users';
+
 
 const env = process.env.NODE_ENV; //process는 nodejs의 전체정보를 가지고 있는 Variable이다.
 
-const middlewares = [thunk];
+const history = createHistory();
+
+const middlewares = [thunk, routerMiddleware(history)];
 
 if(env === "development"){ //dev 환경일때만 logger를 부른다.(prod일 경우 부르지 않는다.)
     const { logger } = require("redux-logger")
@@ -13,9 +18,13 @@ if(env === "development"){ //dev 환경일때만 logger를 부른다.(prod일 �
 } //dev가 아닐때 array는 thunk이다. 하지만 dev일때는 logger도 있다.
 
 const reducer = combineReducers({ //combineReducer로 reducer들을 합친다.
-    users
-})
+    users,
+    routing: routerReducer
+});
 
-let store = initialState => createStore(reducer, applyMiddleware(...middlewares)); // For make list of function, use "..." it means, unpack the array
+let store = initialState => 
+    createStore(reducer, applyMiddleware(...middlewares)); // For make list of function, use "..." it means, unpack the array
+
+export { history }; // router는 history object가 필요하다.
 
 export default store(); 
